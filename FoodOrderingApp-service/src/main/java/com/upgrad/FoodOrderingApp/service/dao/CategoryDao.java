@@ -22,4 +22,13 @@ public class CategoryDao {
             return null;
         }
     }
+
+    // This method is used to list all the available categories
+    public List<CategoryEntity> getAllCategories() {
+        try {
+            return entityManager.createNamedQuery("allCategories", CategoryEntity.class).getResultList();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 }
