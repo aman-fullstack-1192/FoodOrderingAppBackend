@@ -31,4 +31,9 @@ public class RestaurantDao {
             return null;
         }
     }
+
+    // This method is used to update restaurant details and also to return restaurant entity object
+    public RestaurantEntity updateRestaurantEntity(RestaurantEntity restaurantEntity) {
+        return entityManager.merge(restaurantEntity);
+    }
 }
