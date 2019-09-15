@@ -1,10 +1,11 @@
 package com.upgrad.FoodOrderingApp.service.businness;
 
+import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
 import com.upgrad.FoodOrderingApp.service.dao.RestaurantDao;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RestaurantService {
@@ -15,6 +16,21 @@ public class RestaurantService {
     // This method is used to get all restaurants and return in form of a list
     public List<RestaurantEntity> restaurantsByRating() {
         return restaurantDao.restaurantsByRating();
+    }
+
+    // This method is used to get the list of restaurants matching given name or else it will throw resaturant not found exception
+    public List<RestaurantEntity> restaurantsByName(final String restaurantName) throws RestaurantNotFoundException {
+        if(restaurantName.isEmpty()){
+            throw new RestaurantNotFoundException("RNF-003", "Restaurant name field should not be empty");
+        }
+        List<RestaurantEntity> restaurantEntityList = restaurantDao.restaurantsByRating();
+        List<RestaurantEntity> matchedRestaurantEntityList = new ArrayList<RestaurantEntity>();
+        for (RestaurantEntity restaurantEntity : restaurantEntityList) {
+            if (restaurantEntity.getRestaurantName().toLowerCase().contains(restaurantName.toLowerCase())) {
+                matchedRestaurantEntityList.add(restaurantEntity);
+            }
+        }
+        return matchedRestaurantEntityList;
     }
 
 }
