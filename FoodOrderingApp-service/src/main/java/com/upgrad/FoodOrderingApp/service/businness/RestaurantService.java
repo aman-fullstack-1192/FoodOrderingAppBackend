@@ -57,5 +57,18 @@ public class RestaurantService {
         return restaurantEntityList;
     }
 
+    // This method is used to get restaurant by UUID or else it will throw RestaurantNotFoundException
+    public RestaurantEntity restaurantByUUID(String uuid) throws RestaurantNotFoundException {
+        if (uuid.equals("")) {
+            throw new RestaurantNotFoundException("RNF-002", "Restaurant id field should not be empty");
+        }
+        RestaurantEntity restaurantEntity = restaurantDao.getRestaurantByUUID(uuid);
+
+        if (restaurantEntity == null) {
+            throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
+        }
+        return restaurantEntity;
+    }
+
 
 }
